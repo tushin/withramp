@@ -104,18 +104,18 @@ fun MapWithRoute(route: Route) {
                 color = Color.Magenta
             )
             Marker(
-                state = remember { MarkerState(position = path.first()) },
+                state = remember(route) { MarkerState(position = path.first()) },
                 alpha = 0.8f,
                 title = "출발",
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
             )
             Marker(
-                state = remember { MarkerState(position = path.last()) },
+                state = remember(route) { MarkerState(position = path.last()) },
                 alpha = 0.8f,
                 title = "도착",
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
             )
-            LaunchedEffect(path) {
+            LaunchedEffect(route) {
                 val bounds = LatLngBounds.builder().apply {
                     path.forEach { include(it) }
                 }.build()
