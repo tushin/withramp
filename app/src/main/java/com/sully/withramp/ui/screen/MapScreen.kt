@@ -1,18 +1,33 @@
 package com.sully.withramp.ui.screen
 
+import android.R.attr.action
+import android.R.attr.type
+import android.R.id.shareText
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Environment
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Route
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -26,16 +41,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapEffect
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
+import java.io.File
+import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,6 +113,9 @@ fun MapWithRoute(route: Route) {
     val name = route.name
     val path = route.path
     val cameraPositionState = rememberCameraPositionState {}
+    var googleMapRef by remember { mutableStateOf<GoogleMap?>(null) }
+    val context = LocalContext.current
+
     Box {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
@@ -124,19 +148,64 @@ fun MapWithRoute(route: Route) {
                     CameraUpdateFactory.newLatLngBounds(bounds, 200)
                 )
             }
+
+            MapEffect { map ->
+                googleMapRef = map
+                val bounds = LatLngBounds.builder().apply { path.forEach { include(it) } }.build()
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 200))
+            }
         }
 
-        Text(
+        Row(
             modifier = Modifier
                 .padding(16.dp)
                 .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.5f))
+                .background(Color.White.copy(alpha = 0.8f))
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            text = name,
-            style = MaterialTheme.typography.titleMedium,
-        )
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.titleMedium,
+            )
 
+            IconButton(
+                onClick = {
+                    googleMapRef?.snapshot { bitmap ->
+                        if (bitmap != null) {
+                            val file = File(
+                                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                                "${name}.png"
+                            )
+                            FileOutputStream(file).use {
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+                            }
 
+                            val fileProviderAuthority = "com.sully.withramp.fileprovider" // manifest에서 설정한 authorities
+
+                            // FileProvider.getUriForFile() 호출
+                            val contentUri: Uri = FileProvider.getUriForFile(context, fileProviderAuthority, file)
+
+                            // 2. Intent 설정
+                            val shareIntent = Intent(Intent.ACTION_SEND)
+                                .putExtra(Intent.EXTRA_TEXT, name)
+                                .putExtra(Intent.EXTRA_STREAM, contentUri)
+                                .setType("image/png") // 공유할 파일 타입에 맞게 설정
+                                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // 필수 권한 부여
+
+                            // 3. Chooser 실행
+                            val chooser = Intent.createChooser(shareIntent, "이미지 및 텍스트 공유")
+                            context.startActivity(chooser)
+                        }
+                    }
+
+                }
+            ) {
+                Icon(imageVector = Icons.Default.Share, contentDescription = null)
+            }
+
+        }
     }
 
 }
