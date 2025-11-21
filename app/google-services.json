@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "40578139718",
+    "firebase_url": "https://ssuu-de420-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ssuu-de420",
+    "storage_bucket": "ssuu-de420.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40578139718:android:8371a6214412fe8b916c47",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40578139718-0e35l3am71dn2rgl3noes1iq529sa5ld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk6lZYsnSYz1d4Z-Ha5z3hjQgFWFDAgzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40578139718-0e35l3am71dn2rgl3noes1iq529sa5ld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40578139718:android:3ae111a9e437f48b916c47",
+        "android_client_info": {
+          "package_name": "com.sully.withramp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40578139718-0e35l3am71dn2rgl3noes1iq529sa5ld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk6lZYsnSYz1d4Z-Ha5z3hjQgFWFDAgzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40578139718-0e35l3am71dn2rgl3noes1iq529sa5ld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40578139718:android:684bc16c0a836baf916c47",
+        "android_client_info": {
+          "package_name": "sully.hellofirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40578139718-mgf11efi1f94dspfda0o7691154h544h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sully.hellofirebase",
+            "certificate_hash": "9bd23eee5e5d4d8751527c0cf8f0356de9d3e033"
+          }
+        },
+        {
+          "client_id": "40578139718-0e35l3am71dn2rgl3noes1iq529sa5ld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk6lZYsnSYz1d4Z-Ha5z3hjQgFWFDAgzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40578139718-0e35l3am71dn2rgl3noes1iq529sa5ld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
